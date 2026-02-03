@@ -196,120 +196,39 @@
 
         /* ============ RESPONSIVE BREAKPOINTS ============ */
         
-        /* Small phones */
         @media (max-width: 374px) {
-            .header {
-                padding: 10px 12px;
-            }
-            
-            .logo-icon {
-                width: 28px;
-                height: 28px;
-            }
-            
-            .logo-text {
-                font-size: 14px;
-            }
-            
-            .signup-btn {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-            
-            .signup-btn .icon {
-                width: 14px;
-                height: 14px;
-            }
-            
-            .popup-title {
-                font-size: 14px;
-            }
-            
-            .popup-btn {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
+            .header { padding: 10px 12px; }
+            .logo-icon { width: 28px; height: 28px; }
+            .logo-text { font-size: 14px; }
+            .signup-btn { padding: 6px 12px; font-size: 12px; }
+            .signup-btn .icon { width: 14px; height: 14px; }
+            .popup-title { font-size: 14px; }
+            .popup-btn { padding: 8px 16px; font-size: 14px; }
         }
 
-        /* Tablets and larger phones */
         @media (min-width: 480px) {
-            .header {
-                padding: 14px 20px;
-            }
-            
-            .logo-icon {
-                width: 36px;
-                height: 36px;
-            }
-            
-            .logo-text {
-                font-size: 20px;
-            }
-            
-            .signup-btn {
-                padding: 10px 20px;
-                font-size: 15px;
-            }
-            
-            .video-container {
-                border-radius: 10px;
-            }
-            
-            .popup-title {
-                font-size: 18px;
-            }
-            
-            .popup-btn {
-                padding: 12px 28px;
-                font-size: 17px;
-            }
+            .header { padding: 14px 20px; }
+            .logo-icon { width: 36px; height: 36px; }
+            .logo-text { font-size: 20px; }
+            .signup-btn { padding: 10px 20px; font-size: 15px; }
+            .video-container { border-radius: 10px; }
+            .popup-title { font-size: 18px; }
+            .popup-btn { padding: 12px 28px; font-size: 17px; }
         }
 
-        /* Medium tablets */
         @media (min-width: 768px) {
-            .header {
-                padding: 16px 24px;
-            }
-            
-            .logo-icon {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .logo-text {
-                font-size: 24px;
-            }
-            
-            .signup-btn {
-                padding: 12px 24px;
-                font-size: 16px;
-                gap: 8px;
-            }
-            
-            .video-container {
-                border-radius: 12px;
-                margin-bottom: 32px;
-            }
-            
-            .popup-title {
-                font-size: 20px;
-            }
-            
-            .popup-btn {
-                padding: 14px 32px;
-                font-size: 18px;
-            }
+            .header { padding: 16px 24px; }
+            .logo-icon { width: 40px; height: 40px; }
+            .logo-text { font-size: 24px; }
+            .signup-btn { padding: 12px 24px; font-size: 16px; gap: 8px; }
+            .video-container { border-radius: 12px; margin-bottom: 32px; }
+            .popup-title { font-size: 20px; }
+            .popup-btn { padding: 14px 32px; font-size: 18px; }
         }
 
-        /* Desktop */
         @media (min-width: 1024px) {
-            .header {
-                padding: 20px 16px;
-            }
-            
-            .logo-text {
-                font-size: 28px;
-            }
+            .header { padding: 20px 16px; }
+            .logo-text { font-size: 28px; }
         }
     </style>
 </head>
@@ -342,11 +261,11 @@
     <main class="main">
         <!-- Video Player -->
         <div class="video-container" id="videoContainer">
-            <!-- ========== IFRAME - এখানে আপনার VIDEO LINK বসান ========== -->
+            <!-- ========== IFRAME - YouTube URL তে enablejsapi=1 যোগ করা হয়েছে ========== -->
             <iframe 
                 id="videoIframe"
                 class="video-iframe"
-                src="https://www.youtube.com/embed/fESYOcGWax4?si=DRPh9Z6h5S2YIS5m"
+                src="https://www.youtube.com/embed/fESYOcGWax4?enablejsapi=1"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
             ></iframe>
@@ -380,15 +299,15 @@
     </main>
 
     <script>
-        // ============ CONFIGURATION - সহজে পরিবর্তন করুন ============
+        // ============ CONFIGURATION ============
         const CONFIG = {
-            // আপনার Video/Iframe URL এখানে বসান
-            iframeSrc: 'https://www.youtube.com/embed/fESYOcGWax4?si=DRPh9Z6h5S2YIS5m',
+            // YouTube URL - enablejsapi=1 অবশ্যই থাকতে হবে video pause করার জন্য
+            iframeSrc: 'https://www.youtube.com/embed/fESYOcGWax4?enablejsapi=1',
             
-            // Popup কত সেকেন্ড পর দেখাবে (milliseconds এ)
+            // Popup delay (milliseconds)
             popupDelay: 20000, // 20 সেকেন্ড
             
-            // Signup Link - এখানে আপনার affiliate/signup link বসান
+            // Signup Link
             signupUrl: 'https://refreshmentwisertowards.com/fmgc1mbj7i?key=6c1de2c7c0334d3a7cc09645f9317d19'
         };
 
@@ -404,26 +323,43 @@
         headerSignupBtn.href = CONFIG.signupUrl;
         popupSignupBtn.href = CONFIG.signupUrl;
 
+        // ============ YOUTUBE VIDEO CONTROL ============
+        function pauseVideo() {
+            // YouTube iframe কে pause command পাঠান
+            videoIframe.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), 
+                '*'
+            );
+        }
+
+        function playVideo() {
+            // YouTube iframe কে play command পাঠান
+            videoIframe.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), 
+                '*'
+            );
+        }
+
         // ============ POPUP LOGIC ============
         let popupTimer;
 
         function showPopup() {
             signupPopup.classList.add('show');
+            pauseVideo(); // ★ Popup দেখালে video pause হবে
         }
 
         function hidePopup() {
             signupPopup.classList.remove('show');
+            playVideo(); // ★ Popup বন্ধ হলে video আবার চলবে
         }
 
         function unlockUser() {
-            // User কে permanently unlock করুন
             localStorage.setItem('userUnlocked', 'true');
             hidePopup();
             if (popupTimer) clearTimeout(popupTimer);
         }
 
         function startPopupTimer() {
-            // যদি user আগেই unlock করে থাকে তাহলে popup দেখাবে না
             if (localStorage.getItem('userUnlocked') === 'true') {
                 return;
             }
