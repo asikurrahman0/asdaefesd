@@ -1,26 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
-
-
-
-<link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEjDmbcADVY38eH67aqpEwNBENOq6oxb3nJrtVSZBUWZvKx5c60wWb8a8dcYlSfY_PRVpTvKOC92UBzHJZC46_rJy2dIUfxcfoiCimkycadlrJd8LvVXuccuI-sCDede5HCJ44DChttDIiY9DHz36RogrF7rmnYQoXeFG-CrURsSeOVh9JxYSEZXpLtvtYg" type="image/png">
-<link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEjDmbcADVY38eH67aqpEwNBENOq6oxb3nJrtVSZBUWZvKx5c60wWb8a8dcYlSfY_PRVpTvKOC92UBzHJZC46_rJy2dIUfxcfoiCimkycadlrJd8LvVXuccuI-sCDede5HCJ44DChttDIiY9DHz36RogrF7rmnYQoXeFG-CrURsSeOVh9JxYSEZXpLtvtYg">
-
-
-
-
-
-
-
-
-
-
-    
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEjDmbcADVY38eH67aqpEwNBENOq6oxb3nJrtVSZBUWZvKx5c60wWb8a8dcYlSfY_PRVpTvKOC92UBzHJZC46_rJy2dIUfxcfoiCimkycadlrJd8LvVXuccuI-sCDede5HCJ44DChttDIiY9DHz36RogrF7rmnYQoXeFG-CrURsSeOVh9JxYSEZXpLtvtYg" type="image/png">
+    <link rel="shortcut icon" href="https://blogger.googleusercontent.com/img/a/AVvXsEjDmbcADVY38eH67aqpEwNBENOq6oxb3nJrtVSZBUWZvKx5c60wWb8a8dcYlSfY_PRVpTvKOC92UBzHJZC46_rJy2dIUfxcfoiCimkycadlrJd8LvVXuccuI-sCDede5HCJ44DChttDIiY9DHz36RogrF7rmnYQoXeFG-CrURsSeOVh9JxYSEZXpLtvtYg">
+    <meta name="monetag" content="ca1c68375a7dd5d801c095ebdec2ba1b">
     <script src="https://3nbf4.com/act/files/tag.min.js?z=10525485" data-cfasync="false" async></script>
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LiveMatchWatch</title>
@@ -60,7 +44,8 @@
         .logo-icon {
             width: 32px;
             height: 32px;
-            color: #e50914;
+            border-radius: 4px;
+            object-fit: contain;
         }
 
         .logo-text {
@@ -107,7 +92,6 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
 
-        /* Generic Iframe Player */
         .video-iframe {
             width: 100%;
             height: 100%;
@@ -254,16 +238,7 @@
     <!-- Header -->
     <header class="header">
         <div class="logo">
-            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
-                <line x1="7" y1="2" x2="7" y2="22"/>
-                <line x1="17" y1="2" x2="17" y2="22"/>
-                <line x1="2" y1="12" x2="22" y2="12"/>
-                <line x1="2" y1="7" x2="7" y2="7"/>
-                <line x1="2" y1="17" x2="7" y2="17"/>
-                <line x1="17" y1="17" x2="22" y2="17"/>
-                <line x1="17" y1="7" x2="22" y2="7"/>
-            </svg>
+            <img class="logo-icon" src="https://blogger.googleusercontent.com/img/a/AVvXsEjDmbcADVY38eH67aqpEwNBENOq6oxb3nJrtVSZBUWZvKx5c60wWb8a8dcYlSfY_PRVpTvKOC92UBzHJZC46_rJy2dIUfxcfoiCimkycadlrJd8LvVXuccuI-sCDede5HCJ44DChttDIiY9DHz36RogrF7rmnYQoXeFG-CrURsSeOVh9JxYSEZXpLtvtYg" alt="LiveMatchWatch Logo">
             <span class="logo-text">LiveMatchWatch</span>
         </div>
         <a href="#" id="headerSignupBtn" class="signup-btn" onclick="unlockUser()">
@@ -279,7 +254,6 @@
     <main class="main">
         <!-- Video Player -->
         <div class="video-container" id="videoContainer">
-            <!-- ========== IFRAME - YouTube URL তে enablejsapi=1 যোগ করা হয়েছে ========== -->
             <iframe 
                 id="videoIframe"
                 class="video-iframe"
@@ -290,7 +264,7 @@
 
             <!-- Fullscreen Button -->
             <button class="fullscreen-btn" id="fullscreenBtn" title="Fullscreen">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg id="fullscreenIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="15 3 21 3 21 9"/>
                     <polyline points="9 21 3 21 3 15"/>
                     <line x1="21" y1="3" x2="14" y2="10"/>
@@ -319,13 +293,8 @@
     <script>
         // ============ CONFIGURATION ============
         const CONFIG = {
-            // YouTube URL - enablejsapi=1 অবশ্যই থাকতে হবে video pause করার জন্য
             iframeSrc: 'https://player.vdocipher.com/live-v2?liveId=1539bbe9adc946779f6b9e9080c9853b',
-            
-            // Popup delay (milliseconds)
-            popupDelay: 20000, // 20 সেকেন্ড
-            
-            // Signup Link
+            popupDelay: 20000,
             signupUrl: 'https://www.effectivegatecpm.com/fmztpgmu0m?key=fd872a39b6e33374c0322a34666d5f6c'
         };
 
@@ -334,6 +303,7 @@
         const videoIframe = document.getElementById('videoIframe');
         const signupPopup = document.getElementById('signupPopup');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const fullscreenIcon = document.getElementById('fullscreenIcon');
         const headerSignupBtn = document.getElementById('headerSignupBtn');
         const popupSignupBtn = document.getElementById('popupSignupBtn');
 
@@ -341,9 +311,8 @@
         headerSignupBtn.href = CONFIG.signupUrl;
         popupSignupBtn.href = CONFIG.signupUrl;
 
-        // ============ YOUTUBE VIDEO CONTROL ============
+        // ============ VIDEO CONTROL ============
         function pauseVideo() {
-            // YouTube iframe কে pause command পাঠান
             videoIframe.contentWindow.postMessage(
                 JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), 
                 '*'
@@ -351,7 +320,6 @@
         }
 
         function playVideo() {
-            // YouTube iframe কে play command পাঠান
             videoIframe.contentWindow.postMessage(
                 JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), 
                 '*'
@@ -363,12 +331,12 @@
 
         function showPopup() {
             signupPopup.classList.add('show');
-            pauseVideo(); // ★ Popup দেখালে video pause হবে
+            pauseVideo();
         }
 
         function hidePopup() {
             signupPopup.classList.remove('show');
-            playVideo(); // ★ Popup বন্ধ হলে video আবার চলবে
+            playVideo();
         }
 
         function unlockUser() {
@@ -381,48 +349,71 @@
             if (localStorage.getItem('userUnlocked') === 'true') {
                 return;
             }
-            
             popupTimer = setTimeout(() => {
                 showPopup();
             }, CONFIG.popupDelay);
         }
 
-        // ============ FULLSCREEN ============
+        // ============ FULLSCREEN (FIXED) ============
+        let isFullscreen = false;
+
         fullscreenBtn.addEventListener('click', () => {
-            if (videoContainer.requestFullscreen) {
-                videoContainer.requestFullscreen();
-            } else if (videoContainer.webkitRequestFullscreen) {
-                videoContainer.webkitRequestFullscreen();
-            } else if (videoContainer.msRequestFullscreen) {
-                videoContainer.msRequestFullscreen();
+            if (!isFullscreen) {
+                if (videoContainer.requestFullscreen) {
+                    videoContainer.requestFullscreen();
+                } else if (videoContainer.webkitRequestFullscreen) {
+                    videoContainer.webkitRequestFullscreen();
+                } else if (videoContainer.msRequestFullscreen) {
+                    videoContainer.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
             }
         });
+
+        document.addEventListener('fullscreenchange', updateFullscreenState);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenState);
+        document.addEventListener('msfullscreenchange', updateFullscreenState);
+
+        function updateFullscreenState() {
+            isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+            
+            if (isFullscreen) {
+                fullscreenIcon.innerHTML = `
+                    <polyline points="4 14 4 20 10 20"/>
+                    <polyline points="20 10 20 4 14 4"/>
+                    <line x1="14" y1="10" x2="20" y2="4"/>
+                    <line x1="4" y1="20" x2="10" y2="14"/>
+                `;
+            } else {
+                fullscreenIcon.innerHTML = `
+                    <polyline points="15 3 21 3 21 9"/>
+                    <polyline points="9 21 3 21 3 15"/>
+                    <line x1="21" y1="3" x2="14" y2="10"/>
+                    <line x1="3" y1="21" x2="10" y2="14"/>
+                `;
+            }
+        }
 
         // ============ INITIALIZE ============
         startPopupTimer();
     </script>
 
-
-
-
-
-
-<script>
-  atOptions = {
-    'key' : '5160efd8e6c931cd285d33bbc57c6121',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/5160efd8e6c931cd285d33bbc57c6121/invoke.js"></script>
-
-
-
-
-
-    
-    
+    <script>
+        atOptions = {
+            'key' : '5160efd8e6c931cd285d33bbc57c6121',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+        };
+    </script>
+    <script src="https://www.highperformanceformat.com/5160efd8e6c931cd285d33bbc57c6121/invoke.js"></script>
 </body>
 </html>
