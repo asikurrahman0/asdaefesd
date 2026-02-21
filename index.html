@@ -30,11 +30,10 @@
             transition: background-color 0.3s;
         }
         .signup-btn:hover { background-color: #b8070f; }
-        .main { max-width: 1200px; margin: 0 auto; padding: 0 12px; }
+        .main { width: 100%; padding: 0; }
         .video-container {
             position: relative; width: 100%; aspect-ratio: 16/9; background-color: #000;
-            border-radius: 8px; overflow: hidden; margin-bottom: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
         .video-iframe { width: 100%; height: 100%; border: none; }
         .signup-popup {
@@ -70,13 +69,12 @@
         @media (min-width: 480px) {
             .header { padding: 14px 20px; } .logo-icon { width: 36px; height: 36px; }
             .logo-text { font-size: 20px; } .signup-btn { padding: 10px 20px; font-size: 15px; }
-            .video-container { border-radius: 10px; } .popup-title { font-size: 18px; }
+            .popup-title { font-size: 18px; }
             .popup-btn { padding: 12px 28px; font-size: 17px; }
         }
         @media (min-width: 768px) {
             .header { padding: 16px 24px; } .logo-icon { width: 40px; height: 40px; }
             .logo-text { font-size: 24px; } .signup-btn { padding: 12px 24px; font-size: 16px; gap: 8px; }
-            .video-container { border-radius: 12px; margin-bottom: 32px; }
             .popup-title { font-size: 20px; } .popup-btn { padding: 14px 32px; font-size: 18px; }
         }
         @media (min-width: 1024px) { .header { padding: 20px 16px; } .logo-text { font-size: 28px; } }
@@ -97,8 +95,8 @@
         </a>
     </header>
 
-<main class="main">
-    <div class="video-container" id="videoContainer">
+    <main class="main">
+        <div class="video-container" id="videoContainer">
             <iframe id="videoIframe" class="video-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             <button class="fullscreen-btn" id="fullscreenBtn" title="Fullscreen">
                 <svg id="fullscreenIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -148,7 +146,6 @@
         const popupSignupBtn = document.getElementById('popupSignupBtn');
         const videoContainer = document.getElementById('videoContainer');
 
-        // Apply config
         videoIframe.src = CONFIG.videoSrc;
         headerSignupBtn.href = CONFIG.signupUrl;
         popupSignupBtn.href = CONFIG.signupUrl;
@@ -165,13 +162,11 @@
         function hidePopup() { signupPopup.classList.remove('show'); playVideo(); }
 
         function unlockUser() {
-            
             hidePopup();
             if (popupTimer) clearTimeout(popupTimer);
         }
 
         function startPopupTimer() {
-        
             popupTimer = setTimeout(() => showPopup(), CONFIG.popupDelay);
         }
 
