@@ -30,13 +30,15 @@
             transition: background-color 0.3s;
         }
         .signup-btn:hover { background-color: #b8070f; }
-        .main { max-width: 1200px; margin: 0 auto; padding: 0 12px; }
+        .main { width: 100%; padding: 0; }
         .video-container {
             position: relative; width: 100%; aspect-ratio: 16/9; background-color: #000;
             border-radius: 8px; overflow: hidden; margin-bottom: 24px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
-        .video-iframe { width: 100%; height: 100%; border: none; }
+        .video-player {
+            width: 100%; height: 100%; object-fit: cover; background: #000;
+        }
         .signup-popup {
             position: absolute; inset: 0; display: none; flex-direction: column;
             align-items: center; justify-content: center; background: rgba(0,0,0,0.85);
@@ -47,100 +49,89 @@
         .popup-content { text-align: center; padding: 16px; max-width: 90%; }
         .popup-title {
             display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
-            gap: 8px; font-size: 16px; font-weight: bold; margin-bottom: 10px; line-height: 1.4;
+            gap: 8px; font-size: 16px; font-weight: bold; margin-bottom: 16px; line-height: 1.6;
         }
-        .popup-subtitle { font-size: 14px; color: #a3a3a3; margin-bottom: 16px; }
+        .popup-subtitle { font-size: 14px; color: #aaa; margin-bottom: 16px; }
         .popup-btn {
-            display: inline-block; padding: 10px 24px; background-color: #e50914; color: white;
-            border: none; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer;
-            text-decoration: none; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+            display: inline-block; padding: 12px 24px; background-color: #e50914;
+            color: white; border-radius: 8px; font-weight: 600; font-size: 16px;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(229,9,20,0.4);
             transition: background-color 0.3s;
         }
         .popup-btn:hover { background-color: #b8070f; }
-        .icon { width: 18px; height: 18px; }
         .fullscreen-btn {
             position: absolute; bottom: 10px; right: 10px; width: 40px; height: 40px;
-            background: rgba(0,0,0,0.6); border: none; border-radius: 6px; color: #fff;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            z-index: 30; transition: background 0.2s; opacity: 0;
+            background: rgba(0,0,0,0.6); border: none; border-radius: 6px; color: #f5f5f5;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            z-index: 30; opacity: 0; transition: opacity 0.3s;
         }
         .video-container:hover .fullscreen-btn { opacity: 1; }
-        .fullscreen-btn:hover { background: rgba(229, 9, 20, 0.8); }
-        .fullscreen-btn svg { width: 22px; height: 22px; }
-        @media (min-width: 480px) {
-            .header { padding: 14px 20px; } .logo-icon { width: 36px; height: 36px; }
-            .logo-text { font-size: 20px; } .signup-btn { padding: 10px 20px; font-size: 15px; }
-            .video-container { border-radius: 10px; } .popup-title { font-size: 18px; }
-            .popup-btn { padding: 12px 28px; font-size: 17px; }
-        }
+        .fullscreen-btn:hover { background: rgba(229,9,20,0.8); }
         @media (min-width: 768px) {
-            .header { padding: 16px 24px; } .logo-icon { width: 40px; height: 40px; }
-            .logo-text { font-size: 24px; } .signup-btn { padding: 12px 24px; font-size: 16px; gap: 8px; }
-            .video-container { border-radius: 12px; margin-bottom: 32px; }
-            .popup-title { font-size: 20px; } .popup-btn { padding: 14px 32px; font-size: 18px; }
+            .header { padding: 16px 24px; }
+            .logo-icon { width: 40px; height: 40px; }
+            .logo-text { font-size: 24px; }
+            .signup-btn { padding: 12px 24px; font-size: 16px; }
+            .popup-title { font-size: 20px; }
+            .popup-btn { padding: 14px 32px; font-size: 18px; }
         }
-        @media (min-width: 1024px) { .header { padding: 20px 16px; } .logo-text { font-size: 28px; } }
     </style>
 </head>
 <body>
-
     <header class="header">
         <div class="logo">
             <img class="logo-icon" src="https://blogger.googleusercontent.com/img/a/AVvXsEjDmbcADVY38eH67aqpEwNBENOq6oxb3nJrtVSZBUWZvKx5c60wWb8a8dcYlSfY_PRVpTvKOC92UBzHJZC46_rJy2dIUfxcfoiCimkycadlrJd8LvVXuccuI-sCDede5HCJ44DChttDIiY9DHz36RogrF7rmnYQoXeFG-CrURsSeOVh9JxYSEZXpLtvtYg" alt="Logo">
             <span class="logo-text">LiveMatchWatch</span>
         </div>
-        <a href="#" id="headerSignupBtn" class="signup-btn" onclick="unlockUser()">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
+        <a id="headerSignupBtn" class="signup-btn" target="_blank" rel="noopener noreferrer" onclick="unlockUser()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             Free Sign Up Here
         </a>
     </header>
 
-<main class="main">
-    <div class="video-container" id="videoContainer">
-            <iframe id="videoIframe" class="video-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <main class="main">
+        <div class="video-container" id="videoContainer">
+            <video
+                id="videoPlayer"
+                class="video-player"
+                autoplay
+                muted
+                loop
+                playsinline
+            ></video>
+
             <button class="fullscreen-btn" id="fullscreenBtn" title="Fullscreen">
-                <svg id="fullscreenIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
-                    <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="fullscreenIcon">
+                    <polyline points="15 3 21 3 21 9"/>
+                    <polyline points="9 21 3 21 3 15"/>
+                    <line x1="21" y1="3" x2="14" y2="10"/>
+                    <line x1="3" y1="21" x2="10" y2="14"/>
                 </svg>
             </button>
+
             <div class="signup-popup" id="signupPopup">
                 <div class="popup-content">
                     <div class="popup-title">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                        </svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         Please complete a quick security verification to watch full Match
                     </div>
                     <div class="popup-subtitle">Human verification</div>
-                    <a href="#" id="popupSignupBtn" class="popup-btn" onclick="unlockUser()">Free Sign Up Here</a>
+                    <a id="popupSignupBtn" class="popup-btn" target="_blank" rel="noopener noreferrer" onclick="unlockUser()">
+                        Free Sign Up Here
+                    </a>
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║     এখানে সব কিছু পরিবর্তন করুন (SETTINGS)              ║
-        // ╚══════════════════════════════════════════════════════════╝
-
         const CONFIG = {
-            // ⏱️ পপআপ কত সেকেন্ড পর আসবে (মিলিসেকেন্ডে)
-            // 7000 = 7 সেকেন্ড, 10000 = 10 সেকেন্ড, 20000 = 20 সেকেন্ড
             popupDelay: 7000,
-
-            // 🎥 ভিডিও লিংক (iframe src)
-            videoSrc: 'https://rr1---sn-w4v2upj5a-q5jl.googlevideo.com/videoplayback?expire=1771737631&ei=nyGaab_gL-i_2O8P-9iQkQU&ip=103.153.210.41&id=68b687ddc68dddbc&itag=18&source=blogger&requiressl=yes&xpc=Egho7Zf3LnoBAQ==&cps=0&met=1771708831,&mh=wF&mm=31&mn=sn-w4v2upj5a-q5jl&ms=au&mv=m&mvi=1&pl=24&rms=au,au&susc=bl&svpuc=1&eaua=EGZcU3I1yKo&mime=video/mp4&vprv=1&rqh=1&dur=7.732&lmt=1771705570458859&mt=1771708390&txp=1311224&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,susc,svpuc,eaua,mime,vprv,rqh,dur,lmt&sig=AJEij0EwRAIgYHpkXBMA1NvGk8lUn1IN2er6ZBK1ehefBUmRP1sSxAgCIAxpDIRPHNPoTEN06ZCHRdRElXG1A6AMb33T7izrMEPx&lsparams=cps,met,mh,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRQIhAKjQeAQpbrXr48NRsFfZ2i_Bi0SKGmuCh6FfOZkrJ07dAiBQsZ8c6TGN36SY7OOoOfwiWGkOhtzPrQ_LzG37rp-hyg==&cpn=ukiT2iMey88k2fl_&c=WEB_EMBEDDED_PLAYER&cver=1.20260217.11.00',
-
-            // 🔗 সাইন আপ লিংক (popup ও header বাটন দুটোতেই যাবে)
+            videoSrc: 'https://rr1---sn-w4v2upj5a-q5jl.googlevideo.com/videoplayback?expire=1771734458&ei=OhWaacrUHM2R-eUPvc_O6AQ&ip=103.153.210.41&id=68b687ddc68dddbc&itag=18&source=blogger&requiressl=yes&xpc=Egho7Zf3LnoBAQ==&cps=0&met=1771705658,&mh=wF&mm=31&mn=sn-w4v2upj5a-q5jl&ms=au&mv=m&mvi=1&pl=24&rms=au,au&susc=bl&svpuc=1&eaua=EGZcU3I1yKo&mime=video/mp4&vprv=1&rqh=1&dur=7.732&lmt=1771705570458859&mt=1771705042&txp=1311224&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,susc,svpuc,eaua,mime,vprv,rqh,dur,lmt&sig=AJEij0EwRQIhALNSQNEjEFwJvN5D8UiFzDwNMQg3swCqJwBYXrshG2pBAiAZHEmtc0xF5zGAvNoJa4gsKEd6rNFYfovzRLWWZv8ilw==&lsparams=cps,met,mh,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRQIhAMKl4quSlo0561o3arYppalQSFNBpJyRu8aDHah1e04-AiAXmV4YGK_DKTj6L1clAWxYvrFeLvN6Pdm3UvIzBHkAxg==&cpn=z1vlz4uRLM75Z5uK&c=WEB_EMBEDDED_PLAYER&cver=1.20260217.11.00',
             signupUrl: 'https://www.effectivegatecpm.com/fmztpgmu0m?key=fd872a39b6e33374c0322a34666d5f6c'
         };
 
-        // ═══════════════ নিচে কিছু পরিবর্তন করতে হবে না ═══════════════
-
-        const videoIframe = document.getElementById('videoIframe');
+        const videoPlayer = document.getElementById('videoPlayer');
         const signupPopup = document.getElementById('signupPopup');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         const fullscreenIcon = document.getElementById('fullscreenIcon');
@@ -149,29 +140,23 @@
         const videoContainer = document.getElementById('videoContainer');
 
         // Apply config
-        videoIframe.src = CONFIG.videoSrc;
+        videoPlayer.src = CONFIG.videoSrc;
         headerSignupBtn.href = CONFIG.signupUrl;
         popupSignupBtn.href = CONFIG.signupUrl;
 
-        function pauseVideo() {
-            videoIframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
-        }
-        function playVideo() {
-            videoIframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
-        }
+        function pauseVideo() { videoPlayer.pause(); }
+        function playVideo() { videoPlayer.play().catch(() => {}); }
 
         let popupTimer;
         function showPopup() { signupPopup.classList.add('show'); pauseVideo(); }
         function hidePopup() { signupPopup.classList.remove('show'); playVideo(); }
 
         function unlockUser() {
-            
             hidePopup();
             if (popupTimer) clearTimeout(popupTimer);
         }
 
         function startPopupTimer() {
-        
             popupTimer = setTimeout(() => showPopup(), CONFIG.popupDelay);
         }
 
