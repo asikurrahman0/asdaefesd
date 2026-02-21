@@ -165,13 +165,13 @@
         function hidePopup() { signupPopup.classList.remove('show'); playVideo(); }
 
         function unlockUser() {
-            localStorage.setItem('userUnlocked', 'true');
+            
             hidePopup();
             if (popupTimer) clearTimeout(popupTimer);
         }
 
         function startPopupTimer() {
-            if (localStorage.getItem('userUnlocked') === 'true') return;
+        
             popupTimer = setTimeout(() => showPopup(), CONFIG.popupDelay);
         }
 
